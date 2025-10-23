@@ -7,11 +7,6 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
-
-
-
-
-
 class ConfigLoader(BaseModel):
     def __init__(self):
         print("Loading configuration...")
