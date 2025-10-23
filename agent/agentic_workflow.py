@@ -15,13 +15,35 @@ from langgraph.prebuilt import ToolNode, tools_condition
 class GraphBuilder():
 
     def __init__(self):
-        pass
+        self.tools=[
+            WeatherInfoTool(),
+            DestinationSearchTool(),
+            CalcTool(),
+            CurrencyConvertTool()
+        ]
 
-    def agent_func(self):
-        pass
+        self.system_prompt = SYTEM_PROMPT
+
+    def agent_func(self, state: MessagesState):
+        user_question = state["messages"]
+        input_question = [self.system_prompt]+user_question
+        resp = self.llm_with_tools.invoke(input_question)
+        return {"messages":[resp]}
 
     def build_graph(self):
-        pass
+        graph_build = StateGraph(MessagesState)
+        graph_build.add_node("agent",self.agent_func)
+        graph_build.add_node("tools", ToolNode(tools=self.tools))
+        graph_build.add_edge(START, "agent")
+        graph_build.add_conditional_edges("agent",tools_condition)
+        graph_build.add_edge("tools", "agent")
+        graph_build.add_edge("agent", END)
+
+        self.graph = graph_build.compile()
+
+        return self.graph
+
+
 
     def __call__(self):
-        pass
+        return self.build_graph()
