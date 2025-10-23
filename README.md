@@ -12,7 +12,7 @@ A Python project for planning trips using multiple agents and workflows. This re
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/Multi_Agent_Trip_Planner.git
+git clone https://github.com/pjmreddy14/Multi_Agent_Trip_Planner.git
 cd Multi_Agent_Trip_Planner
 ```
 
